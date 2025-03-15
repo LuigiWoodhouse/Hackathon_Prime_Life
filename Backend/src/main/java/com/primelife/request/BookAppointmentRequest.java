@@ -8,4 +8,6 @@ public class BookAppointmentRequest {
     private String patientName;
     private String visitReason;
     private String appointmentDate;
+    private String doctor;
+    private String symptom;
 }
