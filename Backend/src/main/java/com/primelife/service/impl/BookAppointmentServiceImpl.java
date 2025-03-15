@@ -1,6 +1,6 @@
 package com.primelife.service.impl;
 
-import com.primelife.entity.Appointments;
+import com.primelife.entity.Appointment;
 import com.primelife.exception.AppointmentException;
 import com.primelife.repository.AppointmentRepository;
 import com.primelife.request.BookAppointmentRequest;
@@ -24,14 +24,14 @@ public class BookAppointmentServiceImpl implements BookAppointmentService {
     public void bookAppointment(BookAppointmentRequest bookAppointmentRequest) throws AppointmentException {
         log.trace("Enter Method bookAppointment :{} ", bookAppointmentRequest);
 
-        Appointments appointments = new Appointments();
+        Appointment appointment = new Appointment();
 
         try {
-            appointments.setPatientName(bookAppointmentRequest.getPatientName());
-            appointments.setVisitReason(bookAppointmentRequest.getVisitReason());
-            appointments.setAppointmentDate(bookAppointmentRequest.getAppointmentDate());
+            appointment.setPatientName(bookAppointmentRequest.getPatientName());
+            appointment.setVisitReason(bookAppointmentRequest.getVisitReason());
+            appointment.setAppointmentDate(bookAppointmentRequest.getAppointmentDate());
 
-            appointmentRepository.save(appointments);
+            appointmentRepository.save(appointment);
             log.info("Exit Method bookAppointment: appointment booked successfully");
         }
 
