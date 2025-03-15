@@ -32,7 +32,7 @@ public class ViewAppointmentServiceImpl implements ViewAppointmentService {
                 result.setStatusCode(404);
                 result.setMessage(HttpStatus.NOT_FOUND.getReasonPhrase());
             }else {
-                result.setData(appointment);
+                result.setData(appointmentsArrayList);
                 result.setStatusCode(200);
                 result.setMessage(HttpStatus.OK.getReasonPhrase());
             }
