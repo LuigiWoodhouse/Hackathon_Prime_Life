@@ -8,5 +8,4 @@ import java.util.ArrayList;
 public interface ViewAppointmentService {
     public GenericResponse viewAppointmentsByPatientId(String id);
     public GenericResponse viewAllAppointments();
-//    public Ge
 }

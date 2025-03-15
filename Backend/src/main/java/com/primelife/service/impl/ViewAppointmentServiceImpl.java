@@ -54,7 +54,7 @@ public class ViewAppointmentServiceImpl implements ViewAppointmentService {
         List<Appointment> appointmentsArrayList = new ArrayList<>();
         try{
             appointmentsArrayList = appointmentRepository.findAll();
-            if(appointmentsArrayList.isEmpty() || appointmentsArrayList == null){
+            if(appointmentsArrayList.isEmpty()){
                 result.setData(appointmentsArrayList);
                 result.setStatusCode(404);
                 result.setMessage(HttpStatus.NOT_FOUND.getReasonPhrase());
