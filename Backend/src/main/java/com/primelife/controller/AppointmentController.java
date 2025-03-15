@@ -1,7 +1,7 @@
 package com.primelife.controller;
 
 
-import com.primelife.entity.Appointments;
+import com.primelife.entity.Appointment;
 import com.primelife.request.BookAppointmentRequest;
 import com.primelife.response.GenericResponse;
 import com.primelife.service.BookAppointmentService;
@@ -57,33 +57,6 @@ public class AppointmentController {
         return responseEntity;
     }
 
-    @GetMapping("/view/{id}")
-    @Operation(summary = "view a patient's appointment", description = "An appointment is able to be viewed")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Appointment is  returned"),
-            @ApiResponse(responseCode = "404", description = "Appointment is not found"),
-            @ApiResponse(responseCode = "500", description = "Failed to view appointment"),
-    })
-    public ResponseEntity<GenericResponse>  viewAppointment(
-            @PathVariable Integer id){
-        ResponseEntity <GenericResponse> responseEntity;
-
-        GenericResponse result = new GenericResponse();
-        Appointments appointments = new Appointments();
-        try{
-
-            result = viewAppointmentService.viewAppointment(id);
-
-            responseEntity = new ResponseEntity<>(result, HttpStatus.NO_CONTENT);
-        }
-        catch (Exception e ) {
-            result.setStatusCode(500);
-            result.setMessage(e.getMessage());
-            responseEntity = new ResponseEntity<>(result, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-        return responseEntity;
-    }
-
     @GetMapping("/view/all")
     @Operation(summary = "view all appointment", description = "All appointment are able to be viewed")
     @ApiResponses(value = {
@@ -107,4 +80,32 @@ public class AppointmentController {
         }
         return responseEntity;
     }
+    @GetMapping("/view/patient/{id}")
+    @Operation(summary = "view the list of patient's appointment", description = "All appointment for a patient is able to be viewed by doctor")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Appointment is  returned"),
+            @ApiResponse(responseCode = "404", description = "Appointment is not found"),
+            @ApiResponse(responseCode = "500", description = "Failed to view appointment"),
+    })
+    public ResponseEntity<GenericResponse>  viewAppointment(
+            @PathVariable String id){
+        ResponseEntity <GenericResponse> responseEntity;
+
+        GenericResponse result = new GenericResponse();
+        Appointment appointments = new Appointment();
+        try{
+
+            result = viewAppointmentService.viewAppointmentsByPatientId(id);
+
+            responseEntity = new ResponseEntity<>(result, HttpStatus.NO_CONTENT);
+        }
+        catch (Exception e ) {
+            result.setStatusCode(500);
+            result.setMessage(e.getMessage());
+            responseEntity = new ResponseEntity<>(result, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        return responseEntity;
+    }
+
+
 }

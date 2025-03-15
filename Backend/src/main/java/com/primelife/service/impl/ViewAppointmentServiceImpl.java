@@ -1,6 +1,6 @@
 package com.primelife.service.impl;
 
-import com.primelife.entity.Appointments;
+import com.primelife.entity.Appointment;
 import com.primelife.repository.AppointmentRepository;
 import com.primelife.response.GenericResponse;
 import com.primelife.service.ViewAppointmentService;
@@ -21,18 +21,18 @@ public class ViewAppointmentServiceImpl implements ViewAppointmentService {
     AppointmentRepository appointmentRepository;
 
     @Override
-    public GenericResponse viewAppointment(Integer id) {
-        log.trace("Enter method viewAppointment param: {} ",id);
-        Optional<Appointments> appointments = Optional.of(new Appointments());
+    public GenericResponse viewAppointmentsByPatientId(String patientId) {
+        log.trace("Enter method viewAppointment param: {} ",patientId);
+        List<Appointment> appointmentsArrayList;
         GenericResponse result = new GenericResponse();
         try{
-            appointments = appointmentRepository.findById(id);
-            if(appointments.isEmpty() || appointments == null){
-                result.setData(appointments);
+            appointmentsArrayList = appointmentRepository.findAllByPatientId(patientId);
+            if(appointmentsArrayList.isEmpty() || appointmentsArrayList == null){
+                result.setData(appointmentsArrayList);
                 result.setStatusCode(404);
                 result.setMessage(HttpStatus.NOT_FOUND.getReasonPhrase());
             }else {
-                result.setData(appointments);
+                result.setData(appointment);
                 result.setStatusCode(200);
                 result.setMessage(HttpStatus.OK.getReasonPhrase());
             }
@@ -51,7 +51,7 @@ public class ViewAppointmentServiceImpl implements ViewAppointmentService {
         log.trace("Enter method viewAllAppointments ");
         GenericResponse result = new GenericResponse();
 
-        List<Appointments> appointmentsArrayList = new ArrayList<>();
+        List<Appointment> appointmentsArrayList = new ArrayList<>();
         try{
             appointmentsArrayList = appointmentRepository.findAll();
             if(appointmentsArrayList.isEmpty() || appointmentsArrayList == null){
