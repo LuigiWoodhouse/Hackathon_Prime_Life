@@ -1,2 +1,10 @@
-com\primelife\entity\Appointments.class
 com\primelife\Main.class
+com\primelife\request\BookAppointmentRequest.class
+com\primelife\service\BookAppointmentService.class
+com\primelife\repository\AppointmentRepository.class
+com\primelife\service\impl\BookAppointmentServiceImpl.class
+com\primelife\utils\ResponseCode.class
+com\primelife\entity\Appointments.class
+com\primelife\response\GenericResponse.class
+com\primelife\controller\AppointmentController.class
+com\primelife\exception\AppointmentException.class

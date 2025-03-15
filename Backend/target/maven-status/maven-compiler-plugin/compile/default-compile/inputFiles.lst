@@ -1,2 +1,10 @@
-C:\Users\Luigi Woodhouse\Documents\Business_Projects\Prime-Life\Backend\src\main\java\com\primelife\entity\Appointments.java
-C:\Users\Luigi Woodhouse\Documents\Business_Projects\Prime-Life\Backend\src\main\java\com\primelife\Main.java
+C:\Users\Luigi Woodhouse\Documents\Business_Projects\Prime-Life\backend\src\main\java\com\primelife\controller\AppointmentController.java
+C:\Users\Luigi Woodhouse\Documents\Business_Projects\Prime-Life\backend\src\main\java\com\primelife\entity\Appointments.java
+C:\Users\Luigi Woodhouse\Documents\Business_Projects\Prime-Life\backend\src\main\java\com\primelife\exception\AppointmentException.java
+C:\Users\Luigi Woodhouse\Documents\Business_Projects\Prime-Life\backend\src\main\java\com\primelife\Main.java
+C:\Users\Luigi Woodhouse\Documents\Business_Projects\Prime-Life\backend\src\main\java\com\primelife\repository\AppointmentRepository.java
+C:\Users\Luigi Woodhouse\Documents\Business_Projects\Prime-Life\backend\src\main\java\com\primelife\request\BookAppointmentRequest.java
+C:\Users\Luigi Woodhouse\Documents\Business_Projects\Prime-Life\backend\src\main\java\com\primelife\response\GenericResponse.java
+C:\Users\Luigi Woodhouse\Documents\Business_Projects\Prime-Life\backend\src\main\java\com\primelife\service\BookAppointmentService.java
+C:\Users\Luigi Woodhouse\Documents\Business_Projects\Prime-Life\backend\src\main\java\com\primelife\service\impl\BookAppointmentServiceImpl.java
+C:\Users\Luigi Woodhouse\Documents\Business_Projects\Prime-Life\backend\src\main\java\com\primelife\utils\ResponseCode.java
