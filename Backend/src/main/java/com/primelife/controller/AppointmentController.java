@@ -29,12 +29,10 @@ public class AppointmentController {
     BookAppointmentService bookAppointmentService;
 
     @PostMapping("/book")
-    @Operation(summary = "Add email to email alert list for a customer", description = "Assign an email to an existing customer's email alert list")
+    @Operation(summary = "book a appointment for patient", description = "Patient is able to book appointment")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "204", description = "Assign email success. no content returned"),
-            @ApiResponse(responseCode = "400", description = "Invalid email"),
-            @ApiResponse(responseCode = "409", description = "Email already assigned. no duplicate allowed"),
-            @ApiResponse(responseCode = "500", description = "Internal Server Error")
+            @ApiResponse(responseCode = "204", description = "Appoint book success. no data returned"),
+            @ApiResponse(responseCode = "500", description = "Failed to book appointment"),
     })
     public ResponseEntity<GenericResponse>  createAppointment(@RequestBody BookAppointmentRequest bookAppointmentRequest) {
 
@@ -43,9 +41,9 @@ public class AppointmentController {
 
         try{
             bookAppointmentService.bookAppointment(bookAppointmentRequest);
-            result.setStatusCode(200);
-            result.setMessage(HttpStatus.OK.getReasonPhrase());
-            responseEntity = new ResponseEntity<>(result, HttpStatus.OK);
+            result.setStatusCode(204);
+            result.setMessage(HttpStatus.NO_CONTENT.getReasonPhrase());
+            responseEntity = new ResponseEntity<>(result, HttpStatus.NO_CONTENT);
         }
         catch (Exception e ) {
             result.setStatusCode(500);
