@@ -36,8 +36,6 @@ public class Appointment {
 
     private String  cancellationReason;
 
-
-
     private String patientId;
 
     private String doctor;

@@ -40,8 +40,10 @@ public class BookAppointmentServiceImpl implements BookAppointmentService {
             appointment.setPatientName(bookAppointmentRequest.getPatientName());
             appointment.setVisitReason(bookAppointmentRequest.getVisitReason());
             appointment.setAppointmentDate(bookAppointmentRequest.getAppointmentDate());
+            appointment.setDoctor("DR John");
+            appointment.setPatientId("test");
 
-            Appointment  savedAppointment =  appointmentRepository.save(appointment);
+              appointmentRepository.save(appointment);
 
             List<Appointment> sortedAppointments = appointmentRepository.findAllByOrderByAppointmentDateAsc();
             webSocketHandler.sendAppointmentUpdate(sortedAppointments);
