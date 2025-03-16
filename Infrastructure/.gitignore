@@ -1,0 +1,21 @@
+# Terraform state files and logs
+*.tfstate
+*.tfstate.backup
+.terraform/
+.terraform.lock.hcl
+
+# AWS credentials and config (if any)
+*.pem
+*.key
+.aws/
+
+# Ignore local environment files
+.env
+.env.local
+.DS_Store
+
+*.tfvars
+*.tfvars.json
+
+tfplan
+*.tfplan
