@@ -20,11 +20,6 @@ public class ModifyAppointmentServiceImpl implements ModifyAppointmentService {
     ViewAppointmentService viewAppointmentService;
     @Autowired
     AppointmentRepository appointmentRepository;
-    private final SimpMessagingTemplate messagingTemplate;
-
-    public ModifyAppointmentServiceImpl(SimpMessagingTemplate messagingTemplate) {
-        this.messagingTemplate = messagingTemplate;
-    }
 
     @Override
     public void modifyAppointment(UpdateAppointmentRequest updateAppointmentRequest, Integer AppointmentId) {
@@ -40,7 +35,6 @@ public class ModifyAppointmentServiceImpl implements ModifyAppointmentService {
                 excistingAppointment.setPatientName(updateAppointmentRequest.getPatientName());
                 appointmentRepository.save(excistingAppointment);
 
-                messagingTemplate.convertAndSend("/topic/appointments", "Appointment cancelled: " + AppointmentId);
 
 
             }

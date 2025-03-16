@@ -36,16 +36,7 @@ public class AppointmentController {
 
     @Autowired
     ModifyAppointmentService modifyAppointmentService;
-    private final SimpMessagingTemplate messagingTemplate;
 
-    public AppointmentController(SimpMessagingTemplate messagingTemplate) {
-        this.messagingTemplate = messagingTemplate;
-    }
-
-    public void sendAppointmentUpdate(String appointmentId, String action) {
-        messagingTemplate.convertAndSend("/topic/appointments",
-                new Appointment());
-    }
 
 
     @PostMapping("/book")

@@ -1,5 +1,6 @@
 package com.primelife.service.impl;
 
+import com.primelife.config.AppointmentWebSocketHandler;
 import com.primelife.entity.Appointment;
 import com.primelife.exception.AppointmentException;
 import com.primelife.repository.AppointmentRepository;
@@ -12,6 +13,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @Slf4j
 public class BookAppointmentServiceImpl implements BookAppointmentService {
@@ -20,10 +23,11 @@ public class BookAppointmentServiceImpl implements BookAppointmentService {
     @Autowired
     AppointmentRepository appointmentRepository;
 
-    private final SimpMessagingTemplate messagingTemplate;
+    private final AppointmentWebSocketHandler webSocketHandler;
 
-    public BookAppointmentServiceImpl(SimpMessagingTemplate messagingTemplate) {
-        this.messagingTemplate = messagingTemplate;
+
+    public BookAppointmentServiceImpl(AppointmentWebSocketHandler webSocketHandler) {
+        this.webSocketHandler = webSocketHandler;
     }
 
     @Override
@@ -39,8 +43,8 @@ public class BookAppointmentServiceImpl implements BookAppointmentService {
 
             Appointment  savedAppointment =  appointmentRepository.save(appointment);
 
-            messagingTemplate.convertAndSend("/topic/appointments", savedAppointment);
-
+            List<Appointment> sortedAppointments = appointmentRepository.findAllByOrderByAppointmentDateAsc();
+            webSocketHandler.sendAppointmentUpdate(sortedAppointments);
             log.info("Exit Method bookAppointment: appointment booked successfully");
         }
 
