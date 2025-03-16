@@ -2,11 +2,17 @@ package com.primelife.service.impl;
 
 import com.primelife.config.AppointmentWebSocketHandler;
 import com.primelife.entity.Appointment;
+import com.primelife.entity.Patient;
 import com.primelife.exception.AppointmentException;
 import com.primelife.repository.AppointmentRepository;
+import com.primelife.repository.PatientRepository;
 import com.primelife.request.BookAppointmentRequest;
+import com.primelife.response.Constants;
 import com.primelife.service.BookAppointmentService;
+import com.primelife.service.EmailService;
+import com.primelife.service.LoginService;
 import com.primelife.utils.ResponseCode;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -29,25 +35,50 @@ public class BookAppointmentServiceImpl implements BookAppointmentService {
     public BookAppointmentServiceImpl(AppointmentWebSocketHandler webSocketHandler) {
         this.webSocketHandler = webSocketHandler;
     }
+    @Autowired
+    LoginService loginService;
+
+    @Autowired
+    HttpServletRequest httpServletRequest;
+
+    @Autowired
+    EmailService emailService;
+
+    @Autowired
+    PatientRepository patientRepository;
+
 
     @Override
-    public void bookAppointment(BookAppointmentRequest bookAppointmentRequest) throws AppointmentException {
+    public void bookAppointment(BookAppointmentRequest bookAppointmentRequest) throws Exception {
         log.trace("Enter Method bookAppointment :{} ", bookAppointmentRequest);
 
         Appointment appointment = new Appointment();
 
+
+        String patientId = loginService.authenticateUser(httpServletRequest);
+
+        Patient existingPatient = patientRepository.findByPatientId(patientId);
+
         try {
-            appointment.setPatientName(bookAppointmentRequest.getPatientName());
+            appointment.setPatientName(existingPatient.getName());
             appointment.setVisitReason(bookAppointmentRequest.getVisitReason());
             appointment.setAppointmentDate(bookAppointmentRequest.getAppointmentDate());
             appointment.setDoctor("DR John");
             appointment.setPatientId("test");
+            appointment.setAppointmentTime(bookAppointmentRequest.getAppointmentTime());
+            appointment.setAppointmentStatus(Constants.APPT_STATUS_PENDING);
+            appointment.setDoctor(bookAppointmentRequest.getDoctor());
+            appointment.setSymptom(bookAppointmentRequest.getSymptom());
+            appointment.setPatientId(patientId);
+            appointment.setEmail(existingPatient.getEmail());
 
               appointmentRepository.save(appointment);
 
             List<Appointment> sortedAppointments = appointmentRepository.findAllByOrderByAppointmentDateAsc();
             webSocketHandler.sendAppointmentUpdate(sortedAppointments);
             log.info("Exit Method bookAppointment: appointment booked successfully");
+
+            emailService.sendCreateAppointmentEmailNotification(appointment.getAppointmentId());
         }
 
         catch(Exception e) {

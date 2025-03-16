@@ -6,8 +6,8 @@ import com.primelife.response.GenericResponse;
 import java.util.ArrayList;
 
 public interface ViewAppointmentService {
-    public GenericResponse viewAppointmentsByPatientId(String id);
-    public GenericResponse viewAllAppointments();
+    public GenericResponse viewAppointmentsByPatientId(String id) throws Exception;
+    public GenericResponse viewAllAppointments() throws Exception;
 
-    Appointment findByAppointmentByAppointment(Integer appointmentId);
+    Appointment findByAppointmentByAppointment(Integer appointmentId) throws Exception;
 }

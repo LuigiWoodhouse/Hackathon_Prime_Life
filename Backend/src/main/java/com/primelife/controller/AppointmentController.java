@@ -68,7 +68,7 @@ public class AppointmentController {
     @GetMapping("/view/all")
     @Operation(summary = "view all appointment", description = "All appointment are able to be viewed")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Appoint book success. no data returned"),
+            @ApiResponse(responseCode = "200", description = "VIEW all appointment success."),
             @ApiResponse(responseCode = "500", description = "Failed to view appointment"),
     })
     public ResponseEntity<GenericResponse>  viewAllAppointment(){
@@ -79,7 +79,7 @@ public class AppointmentController {
 
             result = viewAppointmentService.viewAllAppointments();
 
-            responseEntity = new ResponseEntity<>(result, HttpStatus.NO_CONTENT);
+            responseEntity = new ResponseEntity<>(result, HttpStatus.OK);
         }
         catch (Exception e ) {
             result.setStatusCode(500);
@@ -105,7 +105,7 @@ public class AppointmentController {
 
             result = viewAppointmentService.viewAppointmentsByPatientId(id);
 
-            responseEntity = new ResponseEntity<>(result, HttpStatus.NO_CONTENT);
+            responseEntity = new ResponseEntity<>(result, HttpStatus.OK);
         }
         catch (Exception e ) {
             result.setStatusCode(500);

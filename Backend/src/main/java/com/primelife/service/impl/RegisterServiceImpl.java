@@ -10,6 +10,7 @@ import com.primelife.service.EmailService;
 import com.primelife.service.RegisterService;
 import com.primelife.utils.EmailValidator;
 import com.primelife.utils.ResponseCode;
+import com.primelife.utils.Role;
 import com.primelife.utils.StringGenerator;
 import com.primelife.utils.TokenUtility;
 import lombok.extern.slf4j.Slf4j;
@@ -54,6 +55,7 @@ public class RegisterServiceImpl implements RegisterService {
             String verificationToken = StringGenerator.generateRandomString(12);
             newUser.setVerificationToken(verificationToken);
             newUser.setPatientId(UUID.randomUUID().toString());
+            newUser.setRole(Role.PATIENT);
 
             LocalDateTime currentTime = LocalDateTime.now();
             newUser.setVerificationTokenGenerationTime(currentTime);

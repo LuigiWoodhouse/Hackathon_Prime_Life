@@ -15,4 +15,6 @@ public interface PatientRepository extends JpaRepository<Patient, String> {
     Patient findByEmailIgnoreCase(String email);
 
     Patient findByVerificationToken(String verificationToken);
+
+    Patient findByPatientId(String patientId);
 }

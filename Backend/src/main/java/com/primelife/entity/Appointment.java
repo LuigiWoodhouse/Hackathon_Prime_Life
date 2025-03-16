@@ -30,6 +30,8 @@ public class Appointment {
 
     private String appointmentDate;
 
+    private String appointmentTime;
+
     private Date dateCancelled;
 
     private String appointmentStatus;
@@ -39,4 +41,8 @@ public class Appointment {
     private String patientId;
 
     private String doctor;
+
+    private String symptom;
+
+    private String email;
 }
