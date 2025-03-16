@@ -33,6 +33,13 @@ public class KeyFetchServiceImpl implements KeyFetchService {
     @Value("${spring.mail.password.name}")
     String mailPasswordName;
 
+    @Value("${jwt.private.key.name}")
+    String jwtPrivateKeyName;
+
+    @Value("${jwt.public.key.name}")
+    String jwtPublicKeyName;
+
+
 
     private static final HashMap<String, String> keyCache = new HashMap<>();
 
@@ -142,4 +149,59 @@ public class KeyFetchServiceImpl implements KeyFetchService {
             throw new KeyVaultException(HttpStatus.INTERNAL_SERVER_ERROR.value(), ResponseCode.OPERATION_FAILED.getCode());
         }
     }
+
+
+    @Override
+    public String fetchJwtPrivateKey() throws KeyVaultException {
+        log.trace("Enter Method fetchPrivateKeyValue");
+
+        if (keyCache.containsKey(jwtPrivateKeyName)) {
+            log.info("Jwt private key found in cache");
+            return keyCache.get(jwtPrivateKeyName);
+        }
+
+        SecretClient secretClient = secretClientService.fetchSecretClient();
+        try {
+
+            KeyVaultSecret secret = secretClient.getSecret(jwtPrivateKeyName);
+            String secretValue = secret.getValue();
+            keyCache.put(jwtPrivateKeyName, secretValue);
+            log.info("Jwt private key placed in cache");
+
+            log.info("Exit Method fetchPrivateKeyValue: Successfully fetched private key");
+            return secretValue;
+        }
+        catch (Exception e) {
+            log.error("Exit Method fetchPrivateKeyValue: an error occurred when trying to fetch private key");
+            throw new KeyVaultException(HttpStatus.INTERNAL_SERVER_ERROR.value(), ResponseCode.OPERATION_FAILED.getCode());
+        }
+    }
+
+    @Override
+    public String fetchJwtPublicKey() throws KeyVaultException {
+        log.trace("Enter Method fetchJwtPublicKey");
+
+        if (keyCache.containsKey(jwtPublicKeyName)) {
+            log.info("Jwt public key found in cache");
+            return keyCache.get(jwtPublicKeyName);
+        }
+
+        SecretClient secretClient = secretClientService.fetchSecretClient();
+        try {
+
+            KeyVaultSecret secret = secretClient.getSecret(jwtPublicKeyName);
+            String secretValue = secret.getValue();
+
+            keyCache.put(jwtPublicKeyName, secretValue);
+            log.info("Jwt public key placed in cache");
+
+            log.info("Exit Method fetchJwtPublicKey: Successfully fetched public key");
+            return secretValue;
+        }
+        catch (Exception e) {
+            log.error("Exit Method fetchJwtPublicKey: an error occurred when trying to fetch public key");
+            throw new KeyVaultException(HttpStatus.INTERNAL_SERVER_ERROR.value(), ResponseCode.OPERATION_FAILED.getCode());
+        }
+    }
+
 }

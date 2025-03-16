@@ -10,4 +10,9 @@ public interface KeyFetchService {
     String fetchEmailUsername() throws KeyVaultException;
 
     String fetchEmailPassword() throws KeyVaultException;
+
+
+    String fetchJwtPrivateKey() throws KeyVaultException;
+
+    String fetchJwtPublicKey() throws KeyVaultException;
 }

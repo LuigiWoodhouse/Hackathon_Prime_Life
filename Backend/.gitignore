@@ -3,6 +3,8 @@ target/
 !.mvn/wrapper/maven-wrapper.jar
 !/src/main//target/
 !/src/test//target/
+!**/src/main/**/target/
+!**/src/test/**/target/
 
 ### STS ###
 .apt_generated
@@ -30,6 +32,8 @@ target/
 build/
 !/src/main//build/
 !/src/test//build/
+!**/src/main/**/build/
+!**/src/test/**/build/
 
 ### VS Code ###
 .vscode/
@@ -38,3 +42,4 @@ fly.toml
 /Prime_Life.imlBackend/target/*.jar
 Backend/target/*.jar
 .idea
+/Prime_Life.iml

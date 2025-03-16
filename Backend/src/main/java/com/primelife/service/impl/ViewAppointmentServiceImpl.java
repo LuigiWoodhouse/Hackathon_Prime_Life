@@ -78,7 +78,7 @@ public class ViewAppointmentServiceImpl implements ViewAppointmentService {
 
         Appointment appointment = new Appointment();
         try{
-            appointment = appointmentRepository.findByAppointmentByAppointmentId(appointmentId);
+            appointment = appointmentRepository.findAppointmentByAppointmentId(appointmentId);
             if(appointment != null) {
                 log.trace("Return method findByAppointmentByAppoint {}" , appointment);
                 return appointment;
