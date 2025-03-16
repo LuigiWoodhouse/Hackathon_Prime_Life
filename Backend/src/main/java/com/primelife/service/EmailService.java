@@ -1,5 +1,6 @@
 package com.primelife.service;
 
+
 import com.primelife.entity.Patient;
 import com.primelife.exception.EmailException;
 import org.springframework.http.HttpStatus;

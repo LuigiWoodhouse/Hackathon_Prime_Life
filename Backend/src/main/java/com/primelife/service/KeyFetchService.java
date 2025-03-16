@@ -11,6 +11,7 @@ public interface KeyFetchService {
 
     String fetchEmailPassword() throws KeyVaultException;
 
+
     String fetchJwtPrivateKey() throws KeyVaultException;
 
     String fetchJwtPublicKey() throws KeyVaultException;

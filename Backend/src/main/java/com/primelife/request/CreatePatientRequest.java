@@ -7,5 +7,6 @@ import lombok.Data;
 public class CreatePatientRequest {
 
     private String name;
+    private String email;
     private String symptom;
 }

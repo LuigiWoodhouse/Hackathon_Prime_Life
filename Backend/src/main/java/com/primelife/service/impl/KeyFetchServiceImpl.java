@@ -150,6 +150,7 @@ public class KeyFetchServiceImpl implements KeyFetchService {
         }
     }
 
+
     @Override
     public String fetchJwtPrivateKey() throws KeyVaultException {
         log.trace("Enter Method fetchPrivateKeyValue");

@@ -56,6 +56,7 @@ public class EmailServiceImpl implements EmailService {
         }
     }
 
+
     @Override
     public void sendVerificationEmail(Patient patient, String siteURL) throws EmailException {
         log.trace("Enter Method sendVerificationEmail");
