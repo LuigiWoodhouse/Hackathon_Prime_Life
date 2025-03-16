@@ -1,0 +1,68 @@
+trigger:
+  - develop
+
+variables:
+  vmImageName: 'ubuntu-latest'
+
+stages:
+  - stage: Build
+    displayName: 'Build stage'
+    jobs:
+      - job: Tests
+        displayName: 'Execute tests'
+        pool:
+          vmImage: $(vmImageName)
+        steps:
+          - script: |
+              wget https://archive.apache.org/dist/maven/maven-3/3.5.4/binaries/apache-maven-3.5.4-bin.zip
+            displayName: 'Download Maven 3.5.4'
+
+          - task: ExtractFiles@1
+            displayName: 'Extract Maven 3.5.4 Files'
+            inputs:
+              archiveFilePatterns: 'apache-maven-3.5.4-bin.zip'
+              destinationFolder: '$(build.sourcesdirectory)/maven'
+
+          - task: JavaToolInstaller@0
+            displayName: 'Installing Java 17'
+            inputs:
+              versionSpec: '17'
+              jdkArchitectureOption: 'x64'
+              jdkSourceOption: 'PreInstalled'
+
+          - task: MavenAuthenticate@0
+            displayName: 'Auth for AD_Applications_Feed'
+            inputs:
+              artifactsFeeds: 'AD_Applications_Feed'
+
+          - task: Maven@3
+            displayName: 'Execute Unit Tests'
+            inputs:
+              mavenPomFile: 'pom.xml'
+              goals: 'test'
+              publishJUnitResults: true
+              testResultsFiles: 'target/surefire-reports/TEST-*.xml'
+              testRunTitle: 'Prime Alert Unit Tests'
+              codeCoverageToolOption: 'JaCoCo'
+              codeCoverageClassFilesDirectories: 'target/classes'
+              codeCoverageSourceDirectories: 'src/main/java'
+              codeCoverageFailIfEmpty: false
+              javaHomeOption: 'JDKVersion'
+              mavenVersionOption: 'Path'
+              mavenAuthenticateFeed: false
+              effectivePomSkip: false
+              sonarQubeRunAnalysis: false
+              mavenDirectory: '$(build.sourcesdirectory)/maven/apache-maven-3.5.4'
+              mavenSetM2Home: true
+
+          - task: PublishBuildArtifacts@1
+
+          - task: CopyFiles@2
+            displayName: 'Copy Files to artifact staging directory'
+            inputs:
+              SourceFolder: '$(System.DefaultWorkingDirectory)'
+              Contents: '**/target/*.?(war|jar)'
+              TargetFolder: $(Build.ArtifactStagingDirectory)
+
+          - upload: $(Build.ArtifactStagingDirectory)
+            artifact: 'drop'
