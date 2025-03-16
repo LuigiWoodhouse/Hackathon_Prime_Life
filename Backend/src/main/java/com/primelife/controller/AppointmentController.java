@@ -17,10 +17,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.web.bind.annotation.*;
 import io.swagger.v3.oas.annotations.Operation;
-
-import java.util.ArrayList;
 
 @RestController
 @RequestMapping(value = "/appointment", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -37,6 +36,17 @@ public class AppointmentController {
 
     @Autowired
     ModifyAppointmentService modifyAppointmentService;
+    private final SimpMessagingTemplate messagingTemplate;
+
+    public AppointmentController(SimpMessagingTemplate messagingTemplate) {
+        this.messagingTemplate = messagingTemplate;
+    }
+
+    public void sendAppointmentUpdate(String appointmentId, String action) {
+        messagingTemplate.convertAndSend("/topic/appointments",
+                new Appointment());
+    }
+
 
     @PostMapping("/book")
     @Operation(summary = "book a appointment for patient", description = "Patient is able to book appointment")
@@ -54,6 +64,7 @@ public class AppointmentController {
             result.setStatusCode(204);
             result.setMessage(HttpStatus.NO_CONTENT.getReasonPhrase());
             responseEntity = new ResponseEntity<>(result, HttpStatus.NO_CONTENT);
+
         }
         catch (Exception e ) {
             result.setStatusCode(500);
@@ -161,6 +172,5 @@ public class AppointmentController {
     }
         return responseEntity;
     }
-
 
 }

@@ -8,6 +8,7 @@ import com.primelife.service.ModifyAppointmentService;
 import com.primelife.service.ViewAppointmentService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
@@ -19,6 +20,11 @@ public class ModifyAppointmentServiceImpl implements ModifyAppointmentService {
     ViewAppointmentService viewAppointmentService;
     @Autowired
     AppointmentRepository appointmentRepository;
+    private final SimpMessagingTemplate messagingTemplate;
+
+    public ModifyAppointmentServiceImpl(SimpMessagingTemplate messagingTemplate) {
+        this.messagingTemplate = messagingTemplate;
+    }
 
     @Override
     public void modifyAppointment(UpdateAppointmentRequest updateAppointmentRequest, Integer AppointmentId) {
@@ -33,6 +39,9 @@ public class ModifyAppointmentServiceImpl implements ModifyAppointmentService {
                 excistingAppointment.setDateCreated(updateAppointmentRequest.getDateCreated());
                 excistingAppointment.setPatientName(updateAppointmentRequest.getPatientName());
                 appointmentRepository.save(excistingAppointment);
+
+                messagingTemplate.convertAndSend("/topic/appointments", "Appointment cancelled: " + AppointmentId);
+
 
             }
         } catch (Exception e) {
@@ -62,4 +71,6 @@ public class ModifyAppointmentServiceImpl implements ModifyAppointmentService {
         log.trace("Return method  modifyAppointment ");
 
     }
+
+
 }

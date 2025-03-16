@@ -32,7 +32,8 @@ public class WebSecurityConfiguration {
 
         http.authorizeRequests(authorize -> {
                 authorize
-                        .requestMatchers("/appointment/**").permitAll();
+                        .requestMatchers("/appointment/**").permitAll()
+                .requestMatchers("/ws/**").permitAll();
         });
 
         return http.build();

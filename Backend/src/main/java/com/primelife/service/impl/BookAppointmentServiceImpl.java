@@ -9,6 +9,7 @@ import com.primelife.utils.ResponseCode;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -19,6 +20,11 @@ public class BookAppointmentServiceImpl implements BookAppointmentService {
     @Autowired
     AppointmentRepository appointmentRepository;
 
+    private final SimpMessagingTemplate messagingTemplate;
+
+    public BookAppointmentServiceImpl(SimpMessagingTemplate messagingTemplate) {
+        this.messagingTemplate = messagingTemplate;
+    }
 
     @Override
     public void bookAppointment(BookAppointmentRequest bookAppointmentRequest) throws AppointmentException {
@@ -31,7 +37,10 @@ public class BookAppointmentServiceImpl implements BookAppointmentService {
             appointment.setVisitReason(bookAppointmentRequest.getVisitReason());
             appointment.setAppointmentDate(bookAppointmentRequest.getAppointmentDate());
 
-            appointmentRepository.save(appointment);
+            Appointment  savedAppointment =  appointmentRepository.save(appointment);
+
+            messagingTemplate.convertAndSend("/topic/appointments", savedAppointment);
+
             log.info("Exit Method bookAppointment: appointment booked successfully");
         }
 
