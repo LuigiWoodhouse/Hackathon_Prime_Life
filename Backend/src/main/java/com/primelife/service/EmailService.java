@@ -11,5 +11,7 @@ import java.util.Map;
 public interface EmailService {
 
 
+    void sendCreateAppointmentEmailNotification(Integer appointmentId) throws Exception;
+
     void sendVerificationEmail(Patient patient, String siteURL) throws EmailException;
 }

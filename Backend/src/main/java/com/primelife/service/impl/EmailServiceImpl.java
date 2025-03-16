@@ -1,7 +1,10 @@
 package com.primelife.service.impl;
 
+import com.primelife.entity.Appointment;
 import com.primelife.entity.Patient;
 import com.primelife.exception.EmailException;
+import com.primelife.repository.AppointmentRepository;
+import com.primelife.repository.PatientRepository;
 import com.primelife.response.Constants;
 import com.primelife.service.EmailService;
 import com.primelife.utils.ResponseCode;
@@ -22,17 +25,24 @@ public class EmailServiceImpl implements EmailService {
     @Autowired
     JavaMailSender javaMailSender;
 
+    @Autowired
+    AppointmentRepository appointmentRepository;
 
-    public void sendCreateAppointmentEmailNotification() throws Exception {
+
+    @Override
+    public void sendCreateAppointmentEmailNotification(Integer appointmentId) throws Exception {
         log.trace("Enter Method sendCreateAppointmentEmailNotification :");
 
         List<String> toAddresses = new ArrayList<>();
 
+        Appointment existingAppointment = appointmentRepository.findByAppointmentId(appointmentId);
+
+
         String content =
                 "<html>" +
                         "<body>" +
-//                        "<p>Hi " + existingPatient.getPatientName + "</p>" +
-//                        "<p>"  + Constants.CREATE_APPOINTMENT_MESSAGE +  existingPatient.getAppointmentDate + " " + existingPatient.getAppointmentTime() + "</p>" +
+                        "<p>Hi " + existingAppointment.getPatientName() + "</p>" +
+                        "<p>"  + Constants.CREATE_APPOINTMENT_MESSAGE + " " +  existingAppointment.getAppointmentDate() + " " +   " " + existingAppointment.getAppointmentTime() + "</p>" +
                         "<br>" +
                         "</body>" +
                         "</html>";
@@ -41,14 +51,14 @@ public class EmailServiceImpl implements EmailService {
         MimeMessageHelper helper = new MimeMessageHelper(message);
 
         try {
-            for (String to : toAddresses) {
-                helper.setTo(to);
+
+                helper.setTo(existingAppointment.getEmail());
                 helper.setFrom(Constants.SENDER_EMAIL, Constants.SENDER_NAME);
                 helper.setText(content, true);
 
                 javaMailSender.send(message);
-            }
-            log.info("Return Method sendCreateAppointmentEmailNotification: email alert sent successfully to {}", toAddresses);
+
+            log.info("Return Method sendCreateAppointmentEmailNotification: email alert sent successfully to {}", existingAppointment.getEmail());
         }
         catch (Exception e) {
             log.error("Return Method sendCreateAppointmentEmailNotification: an error occurred while sending email alert to {}: ", toAddresses, e);

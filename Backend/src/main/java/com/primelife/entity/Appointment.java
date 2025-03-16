@@ -30,15 +30,19 @@ public class Appointment {
 
     private String appointmentDate;
 
+    private String appointmentTime;
+
     private Date dateCancelled;
 
     private String appointmentStatus;
 
     private String  cancellationReason;
 
-
-
     private String patientId;
 
     private String doctor;
+
+    private String symptom;
+
+    private String email;
 }
