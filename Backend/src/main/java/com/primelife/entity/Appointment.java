@@ -21,14 +21,21 @@ public class Appointment {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer appointmentId;
 
+    @NotBlank
     private String patientName;
+
+    @NotBlank
     private String visitReason;
 
     @CreationTimestamp
-    Date dateCreated;
+    private Date dateCreated;
 
-    @NotNull
     @NotBlank
     private String appointmentDate;
 
+    @NotBlank
+    private String patientId;
+
+    @NotBlank
+    private String doctor;
 }

@@ -6,4 +6,8 @@ public interface KeyFetchService {
     String fetchDbUsername() throws KeyVaultException;
 
     String fetchDbPassword() throws KeyVaultException;
+
+    String fetchEmailUsername() throws KeyVaultException;
+
+    String fetchEmailPassword() throws KeyVaultException;
 }

@@ -3,6 +3,7 @@ package com.primelife.controller;
 
 import com.primelife.entity.Appointment;
 import com.primelife.request.BookAppointmentRequest;
+import com.primelife.request.UpdateAppointmentRequest;
 import com.primelife.response.GenericResponse;
 import com.primelife.service.BookAppointmentService;
 import com.primelife.service.ViewAppointmentService;
@@ -104,6 +105,22 @@ public class AppointmentController {
             result.setMessage(e.getMessage());
             responseEntity = new ResponseEntity<>(result, HttpStatus.INTERNAL_SERVER_ERROR);
         }
+        return responseEntity;
+    }
+
+    @PatchMapping("modify/appointment/{appointmentId}")
+    public ResponseEntity<GenericResponse> modifyAppointment(@PathVariable String appointmentId, @RequestBody UpdateAppointmentRequest updateAppointMentRequest){
+
+        ResponseEntity <GenericResponse> responseEntity = null;
+
+        GenericResponse result = new GenericResponse();
+        
+        try{
+            
+        } catch (Exception e) {
+            log.error("Exception oocccured");
+        }
+        
         return responseEntity;
     }
 

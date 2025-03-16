@@ -27,6 +27,12 @@ public class KeyFetchServiceImpl implements KeyFetchService {
     @Value("${spring.datasource.password}")
     String dbPasswordName;
 
+    @Value("${spring.mail.username.name}")
+    String mailUsernameName;
+
+    @Value("${spring.mail.password.name}")
+    String mailPasswordName;
+
 
     private static final HashMap<String, String> keyCache = new HashMap<>();
 
@@ -80,6 +86,59 @@ public class KeyFetchServiceImpl implements KeyFetchService {
         }
         catch (Exception e) {
             log.error("Exit Method fetchDbPassword: an error occurred when trying to get db password");
+            throw new KeyVaultException(HttpStatus.INTERNAL_SERVER_ERROR.value(), ResponseCode.OPERATION_FAILED.getCode());
+        }
+    }
+
+    @Override
+    public String fetchEmailUsername() throws KeyVaultException {
+        log.trace("Enter Method fetchEmailUsername");
+
+        if (keyCache.containsKey(mailUsernameName)) {
+            log.info("SMTP Mail username found in cache");
+            return keyCache.get(mailUsernameName);
+        }
+
+        SecretClient secretClient = secretClientService.fetchSecretClient();
+        try {
+
+            KeyVaultSecret secret = secretClient.getSecret(mailUsernameName);
+            String secretValue = secret.getValue();
+
+            keyCache.put(mailUsernameName, secretValue);
+            log.info("SMTP Mail username placed in cache");
+
+            log.info("Exit Method fetchEmailUsername: Successfully fetched email username");
+            return secretValue;
+        }
+        catch (Exception e) {
+            log.error("Exit Method fetchEmailUsername: an error occurred when trying to fetch email username");
+            throw new KeyVaultException(HttpStatus.INTERNAL_SERVER_ERROR.value(), ResponseCode.OPERATION_FAILED.getCode());
+        }
+    }
+
+    @Override
+    public String fetchEmailPassword() throws KeyVaultException {
+        log.trace("Enter Method fetchEmailPassword");
+
+        if (keyCache.containsKey(mailPasswordName)) {
+            log.info("SMTP Mail password found in cache");
+            return keyCache.get(mailPasswordName);
+        }
+
+        SecretClient secretClient = secretClientService.fetchSecretClient();
+        try {
+            KeyVaultSecret secret = secretClient.getSecret(mailPasswordName);
+            String secretValue = secret.getValue();
+
+            keyCache.put(mailPasswordName, secretValue);
+            log.info("SMTP Mail password placed in cache");
+
+            log.info("Exit Method fetchEmailPassword: Successfully fetched email password");
+            return secretValue;
+        }
+        catch (Exception e) {
+            log.error("Exit Method fetchMailPassword: an error occurred when trying to fetch email password");
             throw new KeyVaultException(HttpStatus.INTERNAL_SERVER_ERROR.value(), ResponseCode.OPERATION_FAILED.getCode());
         }
     }
