@@ -62,3 +62,6 @@ Web Socket
       wss://prime-life.fly.dev/ws/appointments
 
 Live URLS will be available up until March 31, 2025 or until quota has been exceeded.
+
+Swagger URL
+https://prime-life.fly.dev/swagger-ui/index.html
