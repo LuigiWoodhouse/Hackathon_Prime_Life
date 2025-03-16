@@ -105,6 +105,12 @@
             <artifactId>spring-boot-starter-validation</artifactId>
             <version>3.3.1</version>
         </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-mail</artifactId>
+            <version>3.3.1</version>
+        </dependency>
     </dependencies>
 
     <build>
@@ -119,7 +125,7 @@
             <!--class-->
             <!--Failed to execute goal org.apache.maven.plugins:maven-compiler-plugin:3.10.1:compile (default-compile) on-->
             <!--project-->
-            <!--PetAniTopia: Fatal error compiling: error: invalid target release: 19-->
+            <!--: Fatal error compiling: error: invalid target release: 19-->
             <!--Change your java home to jdk17.0.8 -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
