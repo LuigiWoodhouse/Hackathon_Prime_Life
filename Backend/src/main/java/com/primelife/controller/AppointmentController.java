@@ -3,9 +3,11 @@ package com.primelife.controller;
 
 import com.primelife.entity.Appointment;
 import com.primelife.request.BookAppointmentRequest;
+import com.primelife.request.CancelAppointmentRequest;
 import com.primelife.request.UpdateAppointmentRequest;
 import com.primelife.response.GenericResponse;
 import com.primelife.service.BookAppointmentService;
+import com.primelife.service.ModifyAppointmentService;
 import com.primelife.service.ViewAppointmentService;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -32,6 +34,9 @@ public class AppointmentController {
 
     @Autowired
     ViewAppointmentService viewAppointmentService;
+
+    @Autowired
+    ModifyAppointmentService modifyAppointmentService;
 
     @PostMapping("/book")
     @Operation(summary = "book a appointment for patient", description = "Patient is able to book appointment")
@@ -109,18 +114,51 @@ public class AppointmentController {
     }
 
     @PatchMapping("modify/appointment/{appointmentId}")
-    public ResponseEntity<GenericResponse> modifyAppointment(@PathVariable String appointmentId, @RequestBody UpdateAppointmentRequest updateAppointMentRequest){
+    public ResponseEntity<GenericResponse> modifyAppointment(@PathVariable Integer appointmentId, @RequestBody UpdateAppointmentRequest updateAppointMentRequest){
 
         ResponseEntity <GenericResponse> responseEntity = null;
 
         GenericResponse result = new GenericResponse();
-        
+
+
         try{
-            
-        } catch (Exception e) {
-            log.error("Exception oocccured");
+            modifyAppointmentService.modifyAppointment(updateAppointMentRequest, appointmentId);
+           result.setStatusCode(200);
+            result.setMessage(HttpStatus.NO_CONTENT.getReasonPhrase());
+            responseEntity = new ResponseEntity<>(result, HttpStatus.NO_CONTENT);
         }
-        
+        catch (Exception e ) {
+            result. setStatusCode(500);
+            result.setMessage(e.getMessage());
+            responseEntity = new ResponseEntity<>(result, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        return responseEntity;
+    }
+
+
+    @PostMapping("/cancel/{appointmentId}/{patientId}")
+    public ResponseEntity<GenericResponse> cancelAppointment(
+            @PathVariable Integer appointmentId,
+            @PathVariable String patientId,
+            @RequestBody CancelAppointmentRequest cancelAppointmentRequest
+    ){
+        ResponseEntity <GenericResponse> responseEntity = null;
+
+        GenericResponse result = new GenericResponse();
+
+
+        try{
+        modifyAppointmentService.cancelAppointment(appointmentId, patientId, cancelAppointmentRequest );
+
+        result.setStatusCode(200);
+        result.setMessage(HttpStatus.NO_CONTENT.getReasonPhrase());
+        responseEntity = new ResponseEntity<>(result, HttpStatus.NO_CONTENT);
+    }
+        catch (Exception e ) {
+        result. setStatusCode(500);
+        result.setMessage(e.getMessage());
+        responseEntity = new ResponseEntity<>(result, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
         return responseEntity;
     }
 

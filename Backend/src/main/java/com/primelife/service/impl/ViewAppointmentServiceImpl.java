@@ -70,4 +70,23 @@ public class ViewAppointmentServiceImpl implements ViewAppointmentService {
         log.trace("Return method viewAllAppointments {}" , result);
        return result;
     }
+
+    @Override
+    public Appointment findByAppointmentByAppointment(Integer appointmentId) {
+        log.trace("Enter method viewAllAppointments ");
+
+
+        Appointment appointment = new Appointment();
+        try{
+            appointment = appointmentRepository.findByAppointmentByAppointmentId(appointmentId);
+            if(appointment != null) {
+                log.trace("Return method findByAppointmentByAppoint {}" , appointment);
+                return appointment;
+            }
+        }catch (Exception e){
+            log.error("Exception occured in method findByAppointmentByAppoint ", e.toString());
+        }
+
+        return  appointment;
+        }
 }

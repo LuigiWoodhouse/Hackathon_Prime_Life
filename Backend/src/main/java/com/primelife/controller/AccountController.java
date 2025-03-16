@@ -22,7 +22,7 @@ public class AccountController {
     @Autowired
     ValidateJWTToken validateJWTToken;
 
-    @PostMapping("/authenticate")
+    @PostMapping("/validate")
     public ResponseEntity<GenericResponse>  signInUser(@RequestBody LoginRequest loginRequest) {
 
         GenericResponse result = new GenericResponse();

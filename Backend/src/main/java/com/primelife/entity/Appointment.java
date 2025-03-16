@@ -36,4 +36,12 @@ public class Appointment {
     @NotBlank
     private String appointmentDate;
 
+    private Date dateCancelled;
+
+    private String appointmentStatus;
+
+    private String  cancellationReason;
+
+
+
 }
