@@ -38,6 +38,27 @@ appointments per day that is periodically refreshed.
     - Then configure it using the db properties outlined in the application.properties file
     - You will still need a Graphical User Interface(GUI) for your Database, use pgAdmin 4(Recommended) or any other GUI of your choice
     - Run the Dockerfile inside this project
+    - azure-pipelines.yml and fly.toml can assist with deployment on azure and fly.io respectively 
+     (NOTE environment variables are needed, reach out to Luigi Woodhouse if needed.)
 
 4. Configure the AZURE_CLIENT_ID ,AZURE_CLIENT_SECRET, AZURE_TENANT_ID for the run configuration of the main class
    NB. for security reasons, the Azure environment variables were not included in this document, Reach out to Product Owner for them.
+
+5. Live Urls of the Backend can be found at the following
+
+Rest API
+
+   1. Register a patient   https://prime-life.fly.dev/register/new/user
+   2. Login                https://prime-life.fly.dev/login/authenticate
+   3. Book appointment     https://prime-life.fly.dev/appointment/book
+   4. View All appointment https://prime-life.fly.dev/view/all
+   5. View patient by id   https://prime-life.fly.dev/view/view/patient/{id}
+   6. Update Appointment   https://prime-life.fly.dev/appointment/modify/appointment/{appointmentId}
+   7. Cancel Appointment   https://prime-life.fly.dev/appointment/cancel/{appointmentId}/{patientId}
+
+Web Socket
+   1. This endpoint is to view live queue of appointments
+
+      wss://prime-life.fly.dev/ws/appointments
+
+Live URLS will be available up until March 31, 2025 or until quota has been exceeded.
